@@ -1,0 +1,15 @@
+-rootPath
+/home/tm8/Qt/Examples/Qt-6.8.0/quick3d/hellocube
+-cmake-output
+-output-file
+/home/tm8/Qt/Examples/Qt-6.8.0/quick3d/hellocube/build/Desktop_Qt_6_8_0-Debug/.qt/qml_imports/hellocube_build.cmake
+-importPath
+/home/tm8/Qt/Examples/Qt-6.8.0/quick3d/hellocube/build/Desktop_Qt_6_8_0-Debug/Example
+-importPath
+/home/tm8/Qt/Examples/Qt-6.8.0/quick3d/hellocube/build/Desktop_Qt_6_8_0-Debug
+-importPath
+/home/tm8/Qt/6.8.0/gcc_64/qml
+-qrcFiles
+/home/tm8/Qt/Examples/Qt-6.8.0/quick3d/hellocube/build/Desktop_Qt_6_8_0-Debug/.qt/rcc/qmake_Example.qrc
+/home/tm8/Qt/Examples/Qt-6.8.0/quick3d/hellocube/build/Desktop_Qt_6_8_0-Debug/.qt/rcc/qmake_Example_copy.qrc
+/home/tm8/Qt/Examples/Qt-6.8.0/quick3d/hellocube/build/Desktop_Qt_6_8_0-Debug/.qt/rcc/hellocube_raw_qml_0.qrc

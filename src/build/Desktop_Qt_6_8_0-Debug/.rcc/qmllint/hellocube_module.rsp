@@ -1,0 +1,12 @@
+-I
+/home/tm8/Qt/Examples/Qt-6.8.0/quick3d/hellocube/build/Desktop_Qt_6_8_0-Debug
+-I
+/home/tm8/Qt/6.8.0/gcc_64/qml
+--resource
+/home/tm8/Qt/Examples/Qt-6.8.0/quick3d/hellocube/build/Desktop_Qt_6_8_0-Debug/.qt/rcc/qmake_Example.qrc
+--resource
+/home/tm8/Qt/Examples/Qt-6.8.0/quick3d/hellocube/build/Desktop_Qt_6_8_0-Debug/.qt/rcc/qmake_Example_copy.qrc
+--resource
+/home/tm8/Qt/Examples/Qt-6.8.0/quick3d/hellocube/build/Desktop_Qt_6_8_0-Debug/.qt/rcc/hellocube_raw_qml_0.qrc
+--module
+Example
