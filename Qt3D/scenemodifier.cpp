@@ -47,21 +47,23 @@ SceneModifier::SceneModifier(Qt3DCore::QEntity *rootEntity)
     sphereTransform->setTranslation(QVector3D(0.0f, 0.0f, 0.0f));
 
     Qt3DCore::QTransform *xAxisTransform = new Qt3DCore::QTransform();
-    xAxisTransform->setRotationX(90);
+    xAxisTransform->setRotationZ(90);
     xAxisTransform->setTranslation(QVector3D(0.0f, 0.0f, 0.0f));
 
     Qt3DCore::QTransform *yAxisTransform = new Qt3DCore::QTransform();
     yAxisTransform->setTranslation(QVector3D(0.0f, 0.0f, 0.0f));
 
     Qt3DCore::QTransform *zAxisTransform = new Qt3DCore::QTransform();
-    zAxisTransform->setRotationZ(90);
+    zAxisTransform->setRotationX(90);
     zAxisTransform->setTranslation(QVector3D(0.0f, 0.0f, 0.0f));
 
     qubitVecTransform = new Qt3DCore::QTransform();
-    qubitVecTransform->setTranslation(QVector3D(0.0f, a / 2, 0.0f));
+    qubitVecTransform->setRotationX(90);
+    qubitVecTransform->setTranslation(QVector3D(0.0f, 0.0f, a / 2));
 
     qubitConeTransform = new Qt3DCore::QTransform();
-    qubitConeTransform->setTranslation(QVector3D(0.0f, a, 0.0f));
+    qubitConeTransform->setRotationX(90);
+    qubitConeTransform->setTranslation(QVector3D(0.0f, 0.0f, a));
 
 
     //Material
@@ -133,9 +135,9 @@ void SceneModifier::pXGate(){
     xGateConeTransform->setTranslation(qubitCTransform);
     m_qubitConeEntity->addComponent(xGateConeTransform);*/
 
-    qubitVecTransform->setMatrix(qubitVecTransform->rotateAround(QVector3D(0,0,0),90,QVector3D(0,1,0)));
+    qubitVecTransform->setMatrix(qubitVecTransform->rotateAround(QVector3D(0,0,0),180,QVector3D(1,0,0)));
     m_qubitVecEntity->addComponent(qubitVecTransform);
-    qubitConeTransform->setMatrix(qubitConeTransform->rotateAround(QVector3D(0,0,0),90,QVector3D(0,1,0)));
+    qubitConeTransform->setMatrix(qubitConeTransform->rotateAround(QVector3D(0,0,0),180,QVector3D(1,0,0)));
     m_qubitConeEntity->addComponent(qubitConeTransform);
 }
 

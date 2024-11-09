@@ -60,13 +60,15 @@ int main(int argc, char **argv)
 
     cameraEntity->lens()->setPerspectiveProjection(45.0f, 16.0f/9.0f, 0.1f, 1000.0f);
     cameraEntity->setPosition(QVector3D(10, 10, 10));
-    cameraEntity->setUpVector(QVector3D(1, -1, 1));
+    QVector3D upVec = QVector3D(0,0,1);
+    cameraEntity->setUpVector(upVec);
     cameraEntity->setViewCenter(QVector3D(0, 0, 0));
 
     // For camera controls
     Qt3DExtras::QOrbitCameraController *camController = new Qt3DExtras::QOrbitCameraController(rootEntity);
 
     camController->setCamera(cameraEntity);
+    camController->setUpVector(upVec);
 
 
     // Scenemodifier
@@ -94,7 +96,7 @@ int main(int argc, char **argv)
 
     // Show window
     widget->show();
-    widget->resize(1200, 800);
+    widget->resize(800, 600);
 
     return app.exec();
 }
