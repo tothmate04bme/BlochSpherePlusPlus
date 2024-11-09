@@ -1,0 +1,9 @@
+# ninja log v6
+16	783	7525335543621055	basicshapes-cpp_autogen/timestamp	27acfb4b5458152d
+16	783	7525335543621055	basicshapes-cpp_autogen/mocs_compilation.cpp	27acfb4b5458152d
+16	783	7525335543621055	C:/Qt/Examples/Qt-6.8.0/qt3d/basicshapes-cpp/build/Desktop_Qt_6_8_0_MinGW_64_bit-Release/basicshapes-cpp_autogen/timestamp	27acfb4b5458152d
+16	783	7525335543621055	C:/Qt/Examples/Qt-6.8.0/qt3d/basicshapes-cpp/build/Desktop_Qt_6_8_0_MinGW_64_bit-Release/basicshapes-cpp_autogen/mocs_compilation.cpp	27acfb4b5458152d
+788	3014	7525335544456218	CMakeFiles/basicshapes-cpp.dir/basicshapes-cpp_autogen/mocs_compilation.cpp.obj	e5d14fd73abadd9a
+795	3036	7525335544511356	CMakeFiles/basicshapes-cpp.dir/scenemodifier.cpp.obj	3d1e2c5ceec11f2f
+792	3360	7525335544486265	CMakeFiles/basicshapes-cpp.dir/main.cpp.obj	62ea1aa4107eee67
+3361	3508	7525335570171165	basicshapes-cpp.exe	364b60a8d7db7993
