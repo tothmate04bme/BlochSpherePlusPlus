@@ -13,6 +13,7 @@ SOURCES += main.cpp \
     scenemodifier.cpp
 
 HEADERS += \
+    quantumbackend.h \
     scenemodifier.h
 
 

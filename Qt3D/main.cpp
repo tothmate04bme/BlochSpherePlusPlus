@@ -36,12 +36,29 @@
 #include <QLineEdit>
 #include <string>
 
+#include <complex>
+#include "quantumbackend.h"
 
+void rotate_amplitude(SceneModifier *modifier, int x, int y, int z){
+    qDebug() << x << " " << y << " " << z << "\n";
 
-void rotateVector(Qt3DCore::QEntity* cylinderEntity, int x, int y, int z) {
+    QMatrix4x4 translate;
+    translate.translate(0.0f, 2.0f, 0.0f);
 
-    qDebug() << "X gate clicked!\n";
+    auto matX = modifier->qubitVecTransform->rotateAround(
+        QVector3D(0,0,0), x, QVector3D(1,0,0));
+
+    auto matY = modifier->qubitVecTransform->rotateAround(
+        QVector3D(0,0,0), y, QVector3D(0,1,0));
+
+    auto matZ = modifier->qubitVecTransform->rotateAround(
+        QVector3D(0,0,0), z, QVector3D(0,0,1));
+
+    auto matXYZ = matZ*(matY * (matX * translate));
+
+    modifier->qubitVecTransform->setMatrix(matXYZ);
 }
+
 
 int main(int argc, char **argv)
 {
@@ -115,9 +132,39 @@ int main(int argc, char **argv)
 
     QPushButton *XGate = new QPushButton();
     XGate->setText(QStringLiteral("X Gate"));
+
+    QPushButton *YGate = new QPushButton();
+    YGate->setText(QStringLiteral("Y Gate"));
+
+    QPushButton *ZGate = new QPushButton();
+    ZGate->setText(QStringLiteral("Z Gate"));
+
+    QuantumState quantumbit(std::complex<double>(1.0, 0.0), std::complex<double>(0.0,0.0));
+
+    QuantumGate X_gate(
+        std::complex<double>(0.0,0.0),
+        std::complex<double>(1.0,0.0),
+        std::complex<double>(1.0,0.0),
+        std::complex<double>(0.0,0.0)
+    );
+
+    QuantumGate Y_gate(
+        std::complex<double>(0.0,0.0),
+        std::complex<double>(0.0,-1.0),
+        std::complex<double>(0.0,1.0),
+        std::complex<double>(0.0,0.0)
+    );
+
+    QuantumGate Z_gate(
+        std::complex<double>(1.0,0.0),
+        std::complex<double>(0.0,0.0),
+        std::complex<double>(0.0,0.0),
+        std::complex<double>(-1.0,0.0)
+    );
+
     QObject::connect(XGate,&QPushButton::clicked, [=]() {
 
-        int x_rotation = 0;
+        /*int x_rotation = 0;
         int y_rotation = 0;
         int z_rotation = 0;
 
@@ -131,29 +178,53 @@ int main(int argc, char **argv)
             qDebug() << "Invalid args";
         }
 
-        qDebug() << x_rotation << " " << y_rotation << " " << z_rotation << "\n";
+        rotate_amplitude(modifier, x_rotation, y_rotation, z_rotation);*/
 
-        QMatrix4x4 translate;
-        translate.translate(0.0f, 2.0f, 0.0f);
+        qDebug() << "X pushed";
 
-        auto matX = modifier->qubitVecTransform->rotateAround(
-            QVector3D(0,0,0), x_rotation, QVector3D(1,0,0));
+        //std::complex<double> d1(0.0, 0.0);
+        //std::complex<double> d2(0.0,1.0);
 
-        auto matY = modifier->qubitVecTransform->rotateAround(
-            QVector3D(0,0,0), y_rotation, QVector3D(0,1,0));
+        //quantumbit = quantumbit * X_gate;
+        quantumbit *= X_gate;
 
-        auto matZ = modifier->qubitVecTransform->rotateAround(
-            QVector3D(0,0,0), z_rotation, QVector3D(0,0,1));
+        int x = calculate_rotate_around_x(quantumbit);
+        int y = calculate_rotate_around_y(quantumbit);
+        int z = calculate_rotate_around_z(quantumbit);
 
-        auto matXYZ = matZ*(matY * (matX * translate));
+        rotate_amplitude(modifier, x, y, z);
+    });
 
-        modifier->qubitVecTransform->setMatrix(matXYZ);
+    QObject::connect(YGate,&QPushButton::clicked, [=]() {
+        qDebug() << "Y pushed";
+
+        quantumbit = quantumbit * Y_gate;
+
+        int x = calculate_rotate_around_x(quantumbit);
+        int y = calculate_rotate_around_y(quantumbit);
+        int z = calculate_rotate_around_z(quantumbit);
+
+        rotate_amplitude(modifier, x, y, z);
+    });
+
+    QObject::connect(ZGate,&QPushButton::clicked, [=]() {
+        qDebug() << "Z pushed";
+
+        quantumbit = quantumbit * Z_gate;
+
+        int x = calculate_rotate_around_x(quantumbit);
+        int y = calculate_rotate_around_y(quantumbit);
+        int z = calculate_rotate_around_z(quantumbit);
+
+        rotate_amplitude(modifier, x, y, z);
     });
 
     vLayout->addWidget(XGate);
-    vLayout->addWidget(Xrot);
-    vLayout->addWidget(Yrot);
-    vLayout->addWidget(Zrot);
+    vLayout->addWidget(YGate);
+    vLayout->addWidget(ZGate);
+    //vLayout->addWidget(Xrot);
+    //vLayout->addWidget(Yrot);
+    //vLayout->addWidget(Zrot);
 
     // Show window
     widget->show();
