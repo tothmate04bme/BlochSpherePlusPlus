@@ -97,7 +97,6 @@ int main(int argc, char **argv)
     camController->setCamera(cameraEntity);
     camController->setUpVector(upVec);
 
-
     // Scenemodifier
     SceneModifier *modifier = new SceneModifier(rootEntity);
 
@@ -139,23 +138,23 @@ int main(int argc, char **argv)
     QPushButton *ZGate = new QPushButton();
     ZGate->setText(QStringLiteral("Z Gate"));
 
-    QuantumState quantumbit(std::complex<double>(1.0, 0.0), std::complex<double>(0.0,0.0));
+    QuantumState *quantumbit = new QuantumState(std::complex<double>(1.0, 0.0), std::complex<double>(0.0,0.0));
 
-    QuantumGate X_gate(
+    QuantumGate *X_gate = new QuantumGate(
         std::complex<double>(0.0,0.0),
         std::complex<double>(1.0,0.0),
         std::complex<double>(1.0,0.0),
         std::complex<double>(0.0,0.0)
     );
 
-    QuantumGate Y_gate(
+    QuantumGate *Y_gate = new QuantumGate(
         std::complex<double>(0.0,0.0),
         std::complex<double>(0.0,-1.0),
         std::complex<double>(0.0,1.0),
         std::complex<double>(0.0,0.0)
     );
 
-    QuantumGate Z_gate(
+    QuantumGate *Z_gate = new QuantumGate(
         std::complex<double>(1.0,0.0),
         std::complex<double>(0.0,0.0),
         std::complex<double>(0.0,0.0),
@@ -186,11 +185,11 @@ int main(int argc, char **argv)
         //std::complex<double> d2(0.0,1.0);
 
         //quantumbit = quantumbit * X_gate;
-        quantumbit *= X_gate;
+        *quantumbit *= *X_gate;
 
-        int x = calculate_rotate_around_x(quantumbit);
-        int y = calculate_rotate_around_y(quantumbit);
-        int z = calculate_rotate_around_z(quantumbit);
+        int x = calculate_rotate_around_x(*quantumbit);
+        int y = calculate_rotate_around_y(*quantumbit);
+        int z = calculate_rotate_around_z(*quantumbit);
 
         rotate_amplitude(modifier, x, y, z);
     });
@@ -198,11 +197,11 @@ int main(int argc, char **argv)
     QObject::connect(YGate,&QPushButton::clicked, [=]() {
         qDebug() << "Y pushed";
 
-        quantumbit = quantumbit * Y_gate;
+        *quantumbit *= *Y_gate;
 
-        int x = calculate_rotate_around_x(quantumbit);
-        int y = calculate_rotate_around_y(quantumbit);
-        int z = calculate_rotate_around_z(quantumbit);
+        int x = calculate_rotate_around_x(*quantumbit);
+        int y = calculate_rotate_around_y(*quantumbit);
+        int z = calculate_rotate_around_z(*quantumbit);
 
         rotate_amplitude(modifier, x, y, z);
     });
@@ -210,11 +209,11 @@ int main(int argc, char **argv)
     QObject::connect(ZGate,&QPushButton::clicked, [=]() {
         qDebug() << "Z pushed";
 
-        quantumbit = quantumbit * Z_gate;
+        *quantumbit *= *Z_gate;
 
-        int x = calculate_rotate_around_x(quantumbit);
-        int y = calculate_rotate_around_y(quantumbit);
-        int z = calculate_rotate_around_z(quantumbit);
+        int x = calculate_rotate_around_x(*quantumbit);
+        int y = calculate_rotate_around_y(*quantumbit);
+        int z = calculate_rotate_around_z(*quantumbit);
 
         rotate_amplitude(modifier, x, y, z);
     });

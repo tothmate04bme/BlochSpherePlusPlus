@@ -4,6 +4,8 @@
 #include <cmath>
 #include <complex>
 
+#include <iostream>
+
 struct QuantumGate{
     std::complex<double> elements[4];
 
@@ -27,6 +29,8 @@ public:
     QuantumState& operator*=(const QuantumGate& gate){
         a = gate.elements[0] * a + gate.elements[1] * b;
         b = gate.elements[2] * a + gate.elements[3] * b;
+        //std::cout<<this->a<<'\n';
+        //std::cout<<this->b<<'\n';
         return *this;
     }
 };

@@ -96,8 +96,8 @@ SceneModifier::SceneModifier(Qt3DCore::QEntity *rootEntity)
     qubitVecMaterial->setAmbient(QColor(0, 0, 0, 0));
 
     qubitVecTransform = new Qt3DCore::QTransform();
-    //qubitVecTransform->setRotationX(90);
-    //qubitVecTransform->setTranslation(QVector3D(0.0f, 0.0f, a / 2));
+    qubitVecTransform->setRotationX(90);
+    qubitVecTransform->setTranslation(QVector3D(0.0f, 0.0f, a / 2));
 
     m_qubitVecEntity = new Qt3DCore::QEntity(m_rootEntity);
     m_qubitVecEntity->addComponent(qubitVecMesh);
