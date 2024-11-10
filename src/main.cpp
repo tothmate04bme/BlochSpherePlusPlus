@@ -1,6 +1,3 @@
-// Copyright (C) 2019 The Qt Company Ltd.
-// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
-
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
@@ -9,8 +6,9 @@
 
 #include <QQuickItem>
 #include <QVector3D>
+#include <QQmlContext>
 #include <iostream>
-#include <thread>
+#include "view.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +17,10 @@ int main(int argc, char *argv[])
     QSurfaceFormat::setDefaultFormat(QQuick3D::idealSurfaceFormat());
 
     QQmlApplicationEngine engine;
+
+    View* myView = new View();
+    engine.rootContext()->setContextProperty("myView", myView);
+
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;

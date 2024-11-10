@@ -5,11 +5,20 @@ import QtQuick.Layouts
 import QtQuick.Controls
 
 Window {
-    id: window
+    id: root
     width: 640
     height: 640
     visible: true
     color: "black"
+
+    /*ColumnLayout{
+        id: layout
+
+    Button{
+        text: "Button"
+        onClicked: myView.doSomething("Works")
+        //onClicked: console.log('click works')
+    }*/
 
     View3D {
         id: blochSphereView
@@ -136,7 +145,7 @@ Window {
             position: Qt.vector3d(0, 20, 0)
             source: "#Cylinder"
             scale: Qt.vector3d(0.03, 0.45, 0.03)
-            //eulerRotation: Qt.vector3d(0, 0, 0)
+            eulerRotation: Qt.vector3d(0, 0, 0)
             materials: [ DefaultMaterial {
             diffuseColor: "black"
                 }
@@ -144,5 +153,7 @@ Window {
         }
 
     }
+
+    //}
 
 }
