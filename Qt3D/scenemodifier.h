@@ -27,8 +27,6 @@ public:
     void pZGate();
     void hGate();
 
-
-private:
     float a = 4.0f;              //Scale
     Qt3DCore::QTransform *qubitVecTransform;
     Qt3DCore::QTransform *qubitConeTransform;

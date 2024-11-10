@@ -33,6 +33,16 @@
 #include <Qt3DExtras/qt3dwindow.h>
 #include <Qt3DExtras/qorbitcameracontroller.h>
 
+#include <QLineEdit>
+#include <string>
+
+
+
+void rotateVector(Qt3DCore::QEntity* cylinderEntity, int x, int y, int z) {
+
+    qDebug() << "X gate clicked!\n";
+}
+
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
@@ -78,21 +88,72 @@ int main(int argc, char **argv)
     view->setRootEntity(rootEntity);
 
     // Create control widgets
-    QCommandLinkButton *info = new QCommandLinkButton();
+    /*QCommandLinkButton *info = new QCommandLinkButton();
     info->setText(QStringLiteral("Vezérlőpult"));
     info->setDescription(QString::fromLatin1("Ez lesz majd egyszer az UI."));
-    info->setIconSize(QSize(0,0));
+    info->setIconSize(QSize(0,0));*/
 
-    QCheckBox *sphereCB = new QCheckBox(widget);
+    QLineEdit *Xrot = new QLineEdit;
+    Xrot->setPlaceholderText("X");
+
+    QLineEdit *Yrot = new QLineEdit;
+    Yrot->setPlaceholderText("Y");
+
+    QLineEdit *Zrot = new QLineEdit;
+    Zrot->setPlaceholderText("Z");
+
+    /*QCheckBox *sphereCB = new QCheckBox(widget);
     sphereCB->setChecked(true);
-    sphereCB->setText(QStringLiteral("Sphere"));
+    sphereCB->setText(QStringLiteral("Sphere"));*/
 
-    vLayout->addWidget(info);
-    vLayout->addWidget(sphereCB);
+    //vLayout->addWidget(info);
+    //vLayout->addWidget(sphereCB);
 
-    sphereCB->setChecked(true);
+    //sphereCB->setChecked(true);
     //modifier->pXGate();
     //modifier->pXGate();
+
+    QPushButton *XGate = new QPushButton();
+    XGate->setText(QStringLiteral("X Gate"));
+    QObject::connect(XGate,&QPushButton::clicked, [=]() {
+
+        int x_rotation = 0;
+        int y_rotation = 0;
+        int z_rotation = 0;
+
+        try{
+            x_rotation = std::stoi(Xrot->text().toUtf8().toStdString());
+            y_rotation = std::stoi(Yrot->text().toUtf8().toStdString());
+            z_rotation = std::stoi(Zrot->text().toUtf8().toStdString());
+        }
+        catch(std::invalid_argument arg){
+            //std::cout << "invalid arguments!\n";
+            qDebug() << "Invalid args";
+        }
+
+        qDebug() << x_rotation << " " << y_rotation << " " << z_rotation << "\n";
+
+        QMatrix4x4 translate;
+        translate.translate(0.0f, 2.0f, 0.0f);
+
+        auto matX = modifier->qubitVecTransform->rotateAround(
+            QVector3D(0,0,0), x_rotation, QVector3D(1,0,0));
+
+        auto matY = modifier->qubitVecTransform->rotateAround(
+            QVector3D(0,0,0), y_rotation, QVector3D(0,1,0));
+
+        auto matZ = modifier->qubitVecTransform->rotateAround(
+            QVector3D(0,0,0), z_rotation, QVector3D(0,0,1));
+
+        auto matXYZ = matZ*(matY * (matX * translate));
+
+        modifier->qubitVecTransform->setMatrix(matXYZ);
+    });
+
+    vLayout->addWidget(XGate);
+    vLayout->addWidget(Xrot);
+    vLayout->addWidget(Yrot);
+    vLayout->addWidget(Zrot);
 
     // Show window
     widget->show();
