@@ -50,29 +50,47 @@ public:
     return QuantumState(new_a, new_b);
 }*/
 
+double deg_to_rad(double rad){
+    double deg = rad * (180.0/3.141592653589793238463);
+
+    qDebug() << "Deg:" << deg;
+
+    return deg;
+}
+
 int calculate_rotate_around_x(QuantumState qs){
-    constexpr double RAD_TO_DEG = 180.0 / M_PI;
+    double theta = 2 * std::acos(std::abs(qs.a));
 
-    //double magA = std::abs(qs.a);
+    // Compute phi
+    double phi = std::arg(qs.b) - std::arg(qs.a);
 
-    // Calculate phi (rotation around Z-axis) in degrees
-    double phi = (std::arg(qs.b) - std::arg(qs.a)) * RAD_TO_DEG;
+    // Convert to Cartesian coordinates
+    //double x = std::sin(theta) * std::cos(phi);
 
-    return phi;
+    return deg_to_rad(phi);
 }
 
 int calculate_rotate_around_y(QuantumState qs){
-    constexpr double RAD_TO_DEG = 180.0 / M_PI;
+    double theta = 2 * std::acos(std::abs(qs.a));
 
-    double magA = std::abs(qs.a);
+    // Compute phi
+    double phi = std::arg(qs.b) - std::arg(qs.a);
 
-    // Calculate theta (rotation around Y-axis) in degrees
-    double theta = 2 * std::acos(magA) * RAD_TO_DEG;
+    double y = std::sin(theta) * std::sin(phi);
 
-    return theta;
+    return deg_to_rad(theta);
 }
 
 int calculate_rotate_around_z(QuantumState qs){
+    double theta = 2 * std::acos(std::abs(qs.a));
+
+    // Compute phi
+    double phi = std::arg(qs.b) - std::arg(qs.a);
+
+
+    // Convert to Cartesian coordinates
+    double z = std::cos(theta);
+
     return 0;
 }
 

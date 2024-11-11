@@ -189,14 +189,17 @@ int main(int argc, char **argv)
 
         //quantumbit = quantumbit * X_gate;
         qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
-        *quantumbit *= *X_gate;
+        (*quantumbit) *= (*X_gate);
         qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
 
         int x = calculate_rotate_around_x(*quantumbit);
         int y = calculate_rotate_around_y(*quantumbit);
         int z = calculate_rotate_around_z(*quantumbit);
 
-        rotate_amplitude(modifier, x, y, z);
+        qDebug() << "\n\n" << x << y << z;
+
+        rotate_amplitude(modifier, x, z, y);
+        //rotate_amplitude(modifier, 0,0,180);
     });
 
     QObject::connect(YGate,&QPushButton::clicked, [=]() {
@@ -210,7 +213,9 @@ int main(int argc, char **argv)
         int y = calculate_rotate_around_y(*quantumbit);
         int z = calculate_rotate_around_z(*quantumbit);
 
-        rotate_amplitude(modifier, x, y, z);
+        //rotate_amplitude(modifier, x, y, z);
+
+        rotate_amplitude(modifier, x, z, y);
     });
 
     QObject::connect(ZGate,&QPushButton::clicked, [=]() {
@@ -224,7 +229,8 @@ int main(int argc, char **argv)
         int y = calculate_rotate_around_y(*quantumbit);
         int z = calculate_rotate_around_z(*quantumbit);
 
-        rotate_amplitude(modifier, x, y, z);
+        rotate_amplitude(modifier, x, z, y);
+        //rotate_amplitude(modifier, 0,0,180);
     });
 
     vLayout->addWidget(XGate);
