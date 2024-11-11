@@ -2,47 +2,41 @@
 # SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 cmake_minimum_required(VERSION 3.16)
-project(hellocube LANGUAGES CXX)
+project(basicshapes-cpp LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick Quick3D)
+if(NOT DEFINED INSTALL_EXAMPLESDIR)
+    set(INSTALL_EXAMPLESDIR "examples")
+endif()
 
-qt_add_executable(hellocube
+set(INSTALL_EXAMPLEDIR "${INSTALL_EXAMPLESDIR}")
+
+find_package(Qt6 REQUIRED COMPONENTS 3DCore 3DExtras 3DInput 3DRender Core Gui Widgets)
+
+qt_add_executable(basicshapes-cpp
     main.cpp
+    scenemodifier.cpp scenemodifier.h
+
 )
 
-set_target_properties(hellocube PROPERTIES
+set_target_properties(basicshapes-cpp PROPERTIES
     WIN32_EXECUTABLE TRUE
     MACOSX_BUNDLE TRUE
 )
 
-target_link_libraries(hellocube PUBLIC
+target_link_libraries(basicshapes-cpp PUBLIC
+    Qt::3DCore
+    Qt::3DExtras
+    Qt::3DInput
+    Qt::3DRender
     Qt::Core
     Qt::Gui
-    Qt::Quick
-    Qt::Quick3D
+    Qt::Widgets
 )
 
-qt_add_qml_module(hellocube
-    URI Example
-    VERSION 1.0
-    QML_FILES main.qml
-    RESOURCES qt_logo.png
-    NO_RESOURCE_TARGET_PATH
+install(TARGETS basicshapes-cpp
+    RUNTIME DESTINATION "${INSTALL_EXAMPLEDIR}"
+    BUNDLE DESTINATION "${INSTALL_EXAMPLEDIR}"
+    LIBRARY DESTINATION "${INSTALL_EXAMPLEDIR}"
 )
-
-install(TARGETS hellocube
-    BUNDLE  DESTINATION .
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
-
-qt_generate_deploy_qml_app_script(
-    TARGET hellocube
-    OUTPUT_SCRIPT deploy_script
-    MACOS_BUNDLE_POST_BUILD
-    NO_UNSUPPORTED_PLATFORM_ERROR
-    DEPLOY_USER_QML_MODULES_ON_UNSUPPORTED_PLATFORM
-)
-install(SCRIPT ${deploy_script})

@@ -1,6 +1,0 @@
-<RCC>
-  <qresource prefix="/">
-    <file alias="qmldir">/home/tm8/Qt/Examples/Qt-6.8.0/quick3d/hellocube/build/Desktop_Qt_6_8_0-Debug/Example/qmldir</file>
-  </qresource>
-</RCC>
-
