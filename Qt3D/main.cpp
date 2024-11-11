@@ -57,7 +57,10 @@ void rotate_amplitude(SceneModifier *modifier, int x, int y, int z){
     auto initializer = modifier->qubitVecTransform->rotateAround(
         QVector3D(0,0,0), 90, QVector3D(1,0,0));
 
-    auto matXYZ = initializer*(matZ*(matY * (matX * translate)));
+    auto initializerZ = modifier->qubitVecTransform->rotateAround(
+        QVector3D(0,0,0), 90, QVector3D(0,0,1));
+
+    auto matXYZ = initializerZ*(initializer*(matZ*(matY * (matX * translate))));
 
     modifier->qubitVecTransform->setMatrix(matXYZ);
 }
