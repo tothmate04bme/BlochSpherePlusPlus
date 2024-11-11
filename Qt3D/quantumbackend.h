@@ -66,8 +66,10 @@ int calculate_rotate_around_x(QuantumState qs){
 
     // Convert to Cartesian coordinates
     //double x = std::sin(theta) * std::cos(phi);
+    qDebug() << "phi:" << phi;
 
-    return deg_to_rad(phi);
+    //return deg_to_rad(phi);
+    return deg_to_rad(theta);
 }
 
 int calculate_rotate_around_y(QuantumState qs){
@@ -78,7 +80,8 @@ int calculate_rotate_around_y(QuantumState qs){
 
     double y = std::sin(theta) * std::sin(phi);
 
-    return deg_to_rad(theta);
+    //return deg_to_rad(theta);
+    return 0;
 }
 
 int calculate_rotate_around_z(QuantumState qs){
@@ -91,7 +94,7 @@ int calculate_rotate_around_z(QuantumState qs){
     // Convert to Cartesian coordinates
     double z = std::cos(theta);
 
-    return 0;
+    return deg_to_rad(phi);
 }
 
 
