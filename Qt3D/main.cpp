@@ -40,7 +40,7 @@
 #include "quantumbackend.h"
 
 void rotate_amplitude(SceneModifier *modifier, int x, int y, int z){
-    qDebug() << x << " " << y << " " << z << "\n";
+    //qDebug() << x << " " << y << " " << z << "\n";
 
     QMatrix4x4 translate;
     translate.translate(0.0f, 2.0f, 0.0f);
@@ -54,7 +54,10 @@ void rotate_amplitude(SceneModifier *modifier, int x, int y, int z){
     auto matZ = modifier->qubitVecTransform->rotateAround(
         QVector3D(0,0,0), z, QVector3D(0,0,1));
 
-    auto matXYZ = matZ*(matY * (matX * translate));
+    auto initializer = modifier->qubitVecTransform->rotateAround(
+        QVector3D(0,0,0), 90, QVector3D(1,0,0));
+
+    auto matXYZ = initializer*(matZ*(matY * (matX * translate)));
 
     modifier->qubitVecTransform->setMatrix(matXYZ);
 }
@@ -185,7 +188,9 @@ int main(int argc, char **argv)
         //std::complex<double> d2(0.0,1.0);
 
         //quantumbit = quantumbit * X_gate;
+        qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
         *quantumbit *= *X_gate;
+        qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
 
         int x = calculate_rotate_around_x(*quantumbit);
         int y = calculate_rotate_around_y(*quantumbit);
@@ -197,7 +202,9 @@ int main(int argc, char **argv)
     QObject::connect(YGate,&QPushButton::clicked, [=]() {
         qDebug() << "Y pushed";
 
+        qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
         *quantumbit *= *Y_gate;
+        qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
 
         int x = calculate_rotate_around_x(*quantumbit);
         int y = calculate_rotate_around_y(*quantumbit);
@@ -209,7 +216,9 @@ int main(int argc, char **argv)
     QObject::connect(ZGate,&QPushButton::clicked, [=]() {
         qDebug() << "Z pushed";
 
+        qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
         *quantumbit *= *Z_gate;
+        qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
 
         int x = calculate_rotate_around_x(*quantumbit);
         int y = calculate_rotate_around_y(*quantumbit);
