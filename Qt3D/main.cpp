@@ -144,6 +144,18 @@ int main(int argc, char **argv)
     QPushButton *HGate = new QPushButton();
     HGate->setText(QStringLiteral("H Gate"));
 
+    QPushButton *SGate = new QPushButton();
+    SGate->setText(QStringLiteral("S Gate"));
+
+    QPushButton *SGate_adj = new QPushButton();
+    SGate_adj->setText(QStringLiteral("S_adj Gate"));
+
+    QPushButton *TGate = new QPushButton();
+    TGate->setText(QStringLiteral("T Gate"));
+
+    QPushButton *TGate_adj = new QPushButton();
+    TGate_adj->setText(QStringLiteral("T_adj Gate"));
+
     QuantumState *quantumbit = new QuantumState(std::complex<double>(1.0, 0.0), std::complex<double>(0.0,0.0));
 
     QuantumGate *X_gate = new QuantumGate(
@@ -173,6 +185,34 @@ int main(int argc, char **argv)
         std::complex<double>(1.0 / std::sqrt(2),0.0),
         std::complex<double>(-1.0 / std::sqrt(2),0.0)
     );
+
+    QuantumGate *S_gate = new QuantumGate(
+        std::complex<double>(1.0,0.0),
+        std::complex<double>(0.0,0.0),
+        std::complex<double>(0.0,0.0),
+        std::complex<double>(0.0,1.0)
+    );
+
+    QuantumGate *S_gate_adj = new QuantumGate(
+        std::complex<double>(1.0,0.0),
+        std::complex<double>(0.0,0.0),
+        std::complex<double>(0.0,0.0),
+        std::complex<double>(0.0,-1.0)
+        );
+
+    QuantumGate *T_gate = new QuantumGate(
+        std::complex<double>(1.0,0.0),
+        std::complex<double>(0.0,0.0),
+        std::complex<double>(0.0,0.0),
+        std::complex<double>(1.0 / std::sqrt(2),1.0 / std::sqrt(2))
+    );
+
+    QuantumGate *T_gate_adj = new QuantumGate(
+        std::complex<double>(1.0,0.0),
+        std::complex<double>(0.0,0.0),
+        std::complex<double>(0.0,0.0),
+        std::complex<double>(1.0 / std::sqrt(2),-1.0 / std::sqrt(2))
+        );
 
     QObject::connect(XGate,&QPushButton::clicked, [=]() {
 
@@ -263,10 +303,72 @@ int main(int argc, char **argv)
         //rotate_amplitude(modifier, 0,0,180);
     });
 
+    QObject::connect(SGate,&QPushButton::clicked, [=]() {
+        qDebug() << "S pushed";
+
+        qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
+        (*quantumbit) *= (*S_gate);
+        qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
+
+        int x = calculate_rotate_around_x(*quantumbit);
+        int y = calculate_rotate_around_y(*quantumbit);
+        int z = calculate_rotate_around_z(*quantumbit);
+
+        rotate_amplitude(modifier, x, z, y);
+    });
+
+    QObject::connect(SGate_adj,&QPushButton::clicked, [=]() {
+        qDebug() << "S_adj pushed";
+
+        qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
+        (*quantumbit) *= (*S_gate_adj);
+        qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
+
+        int x = calculate_rotate_around_x(*quantumbit);
+        int y = calculate_rotate_around_y(*quantumbit);
+        int z = calculate_rotate_around_z(*quantumbit);
+
+        rotate_amplitude(modifier, x, z, y);
+    });
+
+    QObject::connect(TGate,&QPushButton::clicked, [=]() {
+        qDebug() << "T pushed";
+
+        qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
+        (*quantumbit) *= (*T_gate);
+        qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
+
+        int x = calculate_rotate_around_x(*quantumbit);
+        int y = calculate_rotate_around_y(*quantumbit);
+        int z = calculate_rotate_around_z(*quantumbit);
+
+        rotate_amplitude(modifier, x, z, y);
+    });
+
+    QObject::connect(TGate_adj,&QPushButton::clicked, [=]() {
+        qDebug() << "T_adj pushed";
+
+        qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
+        (*quantumbit) *= (*T_gate_adj);
+        qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
+
+        int x = calculate_rotate_around_x(*quantumbit);
+        int y = calculate_rotate_around_y(*quantumbit);
+        int z = calculate_rotate_around_z(*quantumbit);
+
+        rotate_amplitude(modifier, x, z, y);
+    });
+
+
+
     vLayout->addWidget(XGate);
     vLayout->addWidget(YGate);
     vLayout->addWidget(ZGate);
     vLayout->addWidget(HGate);
+    vLayout->addWidget(SGate);
+    vLayout->addWidget(SGate_adj);
+    vLayout->addWidget(TGate);
+    vLayout->addWidget(TGate_adj);
     //vLayout->addWidget(Xrot);
     //vLayout->addWidget(Yrot);
     //vLayout->addWidget(Zrot);
