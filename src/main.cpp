@@ -417,12 +417,18 @@ int main(int argc, char **argv)
     layout->addWidget(new QLineEdit, 8, 0);
     layout->addWidget(new QLineEdit, 8, 1);
 
+    layout->addWidget(new QLineEdit, 9, 0);
+    layout->addWidget(new QLineEdit, 9, 1);
+
+    layout->addWidget(new QLineEdit, 10, 0);
+    layout->addWidget(new QLineEdit, 10, 1);
+
     // Tenth row: Button "Apply"
-    layout->addWidget(new QPushButton("Apply"), 9, 0, 1, 2);
+    layout->addWidget(new QPushButton("Apply"), 11, 0, 1, 2);
 
     // Show window
     widget->show();
-    widget->resize(800, 600);
+    widget->resize(1000, 800);
 
     return app.exec();
 }
