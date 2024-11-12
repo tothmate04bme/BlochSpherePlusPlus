@@ -39,6 +39,11 @@
 #include <complex>
 #include "quantumbackend.h"
 
+#include <QGridLayout>
+#include <QLabel>
+#include <QPushButton>
+#include <QLineEdit>
+
 void rotate_amplitude(SceneModifier *modifier, int x, int y, int z){
     //qDebug() << x << " " << y << " " << z << "\n";
 
@@ -78,10 +83,14 @@ int main(int argc, char **argv)
 
     QWidget *widget = new QWidget;
     QHBoxLayout *hLayout = new QHBoxLayout(widget);
-    QVBoxLayout *vLayout = new QVBoxLayout();
-    vLayout->setAlignment(Qt::AlignTop);
+
+    QGridLayout *layout = new QGridLayout;
+
+    // First row: Label "normal gates"
+
+    layout->setAlignment(Qt::AlignTop);
     hLayout->addWidget(container, 1);
-    hLayout->addLayout(vLayout);
+    hLayout->addLayout(layout);
 
     widget->setWindowTitle(QStringLiteral("BlochSphere++"));
 
@@ -364,7 +373,7 @@ int main(int argc, char **argv)
 
 
 
-    vLayout->addWidget(XGate);
+    /*vLayout->addWidget(XGate);
     vLayout->addWidget(YGate);
     vLayout->addWidget(ZGate);
     vLayout->addWidget(HGate);
@@ -374,7 +383,42 @@ int main(int argc, char **argv)
     vLayout->addWidget(TGate_adj);
     //vLayout->addWidget(Xrot);
     //vLayout->addWidget(Yrot);
-    //vLayout->addWidget(Zrot);
+    //vLayout->addWidget(Zrot);*/
+
+    layout->addWidget(new QLabel("Normal Gates"), 0, 0, 1, 2);
+
+    // Second row: Buttons X gate and Y gate
+    layout->addWidget(XGate, 1, 0);
+    layout->addWidget(YGate, 1, 1);
+
+    // Third row: Buttons Z gate and H gate
+    layout->addWidget(ZGate, 2, 0);
+    layout->addWidget(HGate, 2, 1);
+
+    // Fourth row: Label "phase gates"
+    layout->addWidget(new QLabel("Phase Gates"), 3, 0, 1, 2);
+
+    // Fifth row: Buttons S gate and T gate
+    layout->addWidget(SGate, 4, 0);
+    layout->addWidget(SGate_adj, 4, 1);
+
+    // Sixth row: Buttons St gate and Tt gate
+    layout->addWidget(TGate, 5, 0);
+    layout->addWidget(TGate_adj, 5, 1);
+
+    // Seventh row: Label "own gate"
+    layout->addWidget(new QLabel("Own Gate"), 6, 0, 1, 2);
+
+    // Eighth row: Two text fields
+    layout->addWidget(new QLineEdit, 7, 0);
+    layout->addWidget(new QLineEdit, 7, 1);
+
+    // Ninth row: Two more text fields
+    layout->addWidget(new QLineEdit, 8, 0);
+    layout->addWidget(new QLineEdit, 8, 1);
+
+    // Tenth row: Button "Apply"
+    layout->addWidget(new QPushButton("Apply"), 9, 0, 1, 2);
 
     // Show window
     widget->show();
