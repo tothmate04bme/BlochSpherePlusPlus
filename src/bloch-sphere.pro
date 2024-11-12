@@ -11,10 +11,12 @@ QT += widgets
 
 SOURCES += main.cpp \
     quantumbackend.cpp \
-    scenemodifier.cpp
+    scenemodifier.cpp \
+    uifactory.cpp
 
 HEADERS += \
     quantumbackend.h \
-    scenemodifier.h
+    scenemodifier.h \
+    uifactory.h
 
 
