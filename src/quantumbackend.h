@@ -5,6 +5,8 @@
 #include <complex>
 
 #include <iostream>
+#include "scenemodifier.h"
+#include <QLabel>
 
 struct QuantumGate{
     std::complex<double> _00;
@@ -29,10 +31,12 @@ public:
 
 double deg_to_rad(double rad);
 
-int calculate_rotate_around_x(QuantumState qs);
+double calculate_rotate_around_x(QuantumState qs);
+double calculate_rotate_around_y(QuantumState qs);
+double calculate_rotate_around_z(QuantumState qs);
 
-int calculate_rotate_around_y(QuantumState qs);
+void rotate_amplitude(SceneModifier *modifier, int x, int y, int z);
 
-int calculate_rotate_around_z(QuantumState qs);
+void apply_gate(SceneModifier* modifier, QLabel* statesign, QuantumState* quantumbit, QuantumGate* gate);
 
 #endif // QUANTUMBACKEND_H

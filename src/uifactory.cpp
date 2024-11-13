@@ -1,40 +1,6 @@
 #include "uifactory.h"
 #include <cstring>
 
-void rotate_amplitude(SceneModifier *modifier, int x, int y, int z){
-
-    QMatrix4x4 translate;
-    translate.translate(0.0f, 2.0f, 0.0f);
-
-    auto matX = modifier->qubitVecTransform->rotateAround(
-        QVector3D(0,0,0), x, QVector3D(1,0,0));
-
-    auto matY = modifier->qubitVecTransform->rotateAround(
-        QVector3D(0,0,0), y, QVector3D(0,1,0));
-
-    auto matZ = modifier->qubitVecTransform->rotateAround(
-        QVector3D(0,0,0), z, QVector3D(0,0,1));
-
-    auto initializer = modifier->qubitVecTransform->rotateAround(
-        QVector3D(0,0,0), 90, QVector3D(1,0,0));
-
-    auto initializerZ = modifier->qubitVecTransform->rotateAround(
-        QVector3D(0,0,0), 90, QVector3D(0,0,1));
-
-    auto matXYZ = initializerZ*(initializer*(matZ*(matY * (matX * translate))));
-
-    modifier->qubitVecTransform->setMatrix(matXYZ);
-}
-
-void refresh_state_sign(QLabel* label, const QuantumState* qs, double phi, double theta){
-    std::string text = "";
-    text = text + "Amplitude:\n" +
-    "Alpha: " + std::to_string(qs->a.real()) + " + " + std::to_string(qs->a.imag()) + "i\n" +
-    "Beta: " + std::to_string(qs->b.real()) + " + " + std::to_string(qs->b.imag()) + "i\n";
-
-    label->setText(QString(text.c_str()));
-}
-
 QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
 
     QGridLayout *layout = new QGridLayout();
@@ -123,6 +89,7 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
     Custom_gate->setText(QStringLiteral("Apply"));
 
     QLabel* statuslabel = new QLabel(QString("status"));
+    statuslabel->setStyleSheet("border: 2px; padding: 5px;");
 
     QObject::connect(XGate,&QPushButton::clicked, [=]() {
 
@@ -133,21 +100,9 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
             std::complex<double>(0.0,0.0)
             );
 
-        qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
-        (*quantumbit) *= (*X_gate);
-        qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
-
-        int x = calculate_rotate_around_x(*quantumbit);
-        int y = calculate_rotate_around_y(*quantumbit);
-        int z = calculate_rotate_around_z(*quantumbit);
-
-        //qDebug() << "\n\n" << x << y << z;
-
-        rotate_amplitude(modifier, x, z, y);
+        apply_gate(modifier, statuslabel, quantumbit, X_gate);
 
         delete X_gate;
-
-        refresh_state_sign(statuslabel, quantumbit, 0.0, 0.0);
     });
 
     QObject::connect(YGate,&QPushButton::clicked, [=]() {
@@ -159,13 +114,7 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
             std::complex<double>(0.0,0.0)
             );
 
-        (*quantumbit) *= (*Y_gate);
-
-        int x = calculate_rotate_around_x(*quantumbit);
-        int y = calculate_rotate_around_y(*quantumbit);
-        int z = calculate_rotate_around_z(*quantumbit);
-
-        rotate_amplitude(modifier, x, z, y);
+        apply_gate(modifier, statuslabel, quantumbit, Y_gate);
 
         delete Y_gate;
     });
@@ -178,13 +127,8 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
             std::complex<double>(0.0,0.0),
             std::complex<double>(-1.0,0.0)
             );
-        (*quantumbit) *= (*Z_gate);
 
-        int x = calculate_rotate_around_x(*quantumbit);
-        int y = calculate_rotate_around_y(*quantumbit);
-        int z = calculate_rotate_around_z(*quantumbit);
-
-        rotate_amplitude(modifier, x, z, y);
+        apply_gate(modifier, statuslabel, quantumbit, Z_gate);
 
         delete Z_gate;
     });
@@ -198,13 +142,7 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
             std::complex<double>(-1.0 / std::sqrt(2),0.0)
             );
 
-        (*quantumbit) *= (*H_gate);
-
-        int x = calculate_rotate_around_x(*quantumbit);
-        int y = calculate_rotate_around_y(*quantumbit);
-        int z = calculate_rotate_around_z(*quantumbit);
-
-        rotate_amplitude(modifier, x, z, y);
+        apply_gate(modifier, statuslabel, quantumbit, H_gate);
 
         delete H_gate;
     });
@@ -218,13 +156,7 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
             std::complex<double>(0.0,1.0)
             );
 
-        (*quantumbit) *= (*S_gate);
-
-        int x = calculate_rotate_around_x(*quantumbit);
-        int y = calculate_rotate_around_y(*quantumbit);
-        int z = calculate_rotate_around_z(*quantumbit);
-
-        rotate_amplitude(modifier, x, z, y);
+        apply_gate(modifier, statuslabel, quantumbit, S_gate);
 
         delete S_gate;
     });
@@ -238,13 +170,7 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
             std::complex<double>(0.0,-1.0)
             );
 
-        (*quantumbit) *= (*S_gate_adj);
-
-        int x = calculate_rotate_around_x(*quantumbit);
-        int y = calculate_rotate_around_y(*quantumbit);
-        int z = calculate_rotate_around_z(*quantumbit);
-
-        rotate_amplitude(modifier, x, z, y);
+        apply_gate(modifier, statuslabel, quantumbit, S_gate_adj);
 
         delete S_gate_adj;
     });
@@ -258,13 +184,7 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
             std::complex<double>(1.0 / std::sqrt(2),1.0 / std::sqrt(2))
             );
 
-        (*quantumbit) *= (*T_gate);
-
-        int x = calculate_rotate_around_x(*quantumbit);
-        int y = calculate_rotate_around_y(*quantumbit);
-        int z = calculate_rotate_around_z(*quantumbit);
-
-        rotate_amplitude(modifier, x, z, y);
+        apply_gate(modifier, statuslabel, quantumbit, T_gate);
 
         delete T_gate;
     });
@@ -278,15 +198,7 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
             std::complex<double>(1.0 / std::sqrt(2),-1.0 / std::sqrt(2))
             );
 
-        //qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
-        (*quantumbit) *= (*T_gate_adj);
-        //qDebug() << quantumbit->a.real() << quantumbit->a.imag() << quantumbit->b.real() << quantumbit->b.imag();
-
-        int x = calculate_rotate_around_x(*quantumbit);
-        int y = calculate_rotate_around_y(*quantumbit);
-        int z = calculate_rotate_around_z(*quantumbit);
-
-        rotate_amplitude(modifier, x, z, y);
+        apply_gate(modifier, statuslabel, quantumbit, T_gate_adj);
 
         delete T_gate_adj;
     });
@@ -302,6 +214,8 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
             double m22v = std::stod(m22->text().toUtf8().toStdString());
             double m22_iv = std::stod(m22_i->text().toUtf8().toStdString());
 
+            QuantumState* check = new QuantumState(*quantumbit);
+
             QuantumGate *custom_gate = new QuantumGate(
                 std::complex<double>(m11v,m11_iv),
                 std::complex<double>(m12v,m12_iv),
@@ -309,13 +223,16 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
                 std::complex<double>(m22v,m22_iv)
                 );
 
-            (*quantumbit) *= (*custom_gate);
+            (*check) *= (*custom_gate);
 
-            int x = calculate_rotate_around_x(*quantumbit);
-            int y = calculate_rotate_around_y(*quantumbit);
-            int z = calculate_rotate_around_z(*quantumbit);
+            double amplitude_length = std::pow(std::abs(check->a), 2.0) + std::pow(std::abs(check->b), 2.0);
 
-            rotate_amplitude(modifier, x, z, y);
+            if(std::abs(amplitude_length -1.0) < 0.01){
+                apply_gate(modifier, statuslabel, quantumbit, custom_gate);
+            }
+            else{
+                QMessageBox::critical(nullptr, "Error", "Invalid gate, length of the amplitude is not one");
+            }
 
             delete custom_gate;
         }
@@ -336,13 +253,7 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
                 std::complex<double>(cos(xrot_value / 2.0),0.0)
                 );
 
-            (*quantumbit) *= (*xrot_gate);
-
-            int x = calculate_rotate_around_x(*quantumbit);
-            int y = calculate_rotate_around_y(*quantumbit);
-            int z = calculate_rotate_around_z(*quantumbit);
-
-            rotate_amplitude(modifier, x, z, y);
+            apply_gate(modifier, statuslabel, quantumbit, xrot_gate);
 
             delete xrot_gate;
         }
@@ -363,13 +274,7 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
                 std::complex<double>(cos(yrot_value / 2.0),0.0)
                 );
 
-            (*quantumbit) *= (*yrot_gate);
-
-            int x = calculate_rotate_around_x(*quantumbit);
-            int y = calculate_rotate_around_y(*quantumbit);
-            int z = calculate_rotate_around_z(*quantumbit);
-
-            rotate_amplitude(modifier, x, z, y);
+            apply_gate(modifier, statuslabel, quantumbit, yrot_gate);
 
             delete yrot_gate;
         }
@@ -392,13 +297,7 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
                 std::exp(i * zrot_value / 2.0)
                 );
 
-            (*quantumbit) *= (*zrot_gate);
-
-            int x = calculate_rotate_around_x(*quantumbit);
-            int y = calculate_rotate_around_y(*quantumbit);
-            int z = calculate_rotate_around_z(*quantumbit);
-
-            rotate_amplitude(modifier, x, z, y);
+            apply_gate(modifier, statuslabel, quantumbit, zrot_gate);
 
             delete zrot_gate;
         }
@@ -411,11 +310,16 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
         quantumbit->a = std::complex<double>(1.0,0.0);
         quantumbit->b = std::complex<double>(0.0,0.0);
 
-        int x = calculate_rotate_around_x(*quantumbit);
-        int y = calculate_rotate_around_y(*quantumbit);
-        int z = calculate_rotate_around_z(*quantumbit);
+        QuantumGate *I_gate = new QuantumGate(
+            std::complex<double>(1.0,0.0),
+            std::complex<double>(0.0,0.0),
+            std::complex<double>(0.0,0.0),
+            std::complex<double>(0.0,1.0)
+            );
 
-        rotate_amplitude(modifier, x, z, y);
+        apply_gate(modifier, statuslabel, quantumbit, I_gate);
+
+        delete I_gate;
     });
 
 
@@ -475,6 +379,17 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
     layout->addWidget(resetbutton, 16, 0, 1, 2);
 
     layout->addWidget(statuslabel, 17 ,0 ,1 ,2);
+
+    QuantumGate *I_gate = new QuantumGate(
+        std::complex<double>(1.0,0.0),
+        std::complex<double>(0.0,0.0),
+        std::complex<double>(0.0,0.0),
+        std::complex<double>(0.0,1.0)
+        );
+
+    apply_gate(modifier, statuslabel, quantumbit, I_gate);
+
+    delete I_gate;
 
     return layout;
 
