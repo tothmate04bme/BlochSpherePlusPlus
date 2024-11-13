@@ -1,5 +1,4 @@
 #include "quantumbackend.h"
-//#include "scenemodifier.h"
 #include <QLabel>
 
 QuantumGate::QuantumGate(std::complex<double> _00_, std::complex<double> _01_,
@@ -62,15 +61,17 @@ double calculate_rotate_around_z(QuantumState qs){
 
 
     // Convert to Cartesian coordinates
-    double z = std::cos(theta);
+    //double z = std::cos(theta);
 
     return deg_to_rad(phi);
 }
 
 void rotate_amplitude(SceneModifier *modifier, int x, int y, int z){
 
+    //cylinder
+
     QMatrix4x4 translate;
-    translate.translate(0.0f, 2.0f, 0.0f);
+    translate.translate(0.0f, (4.0 * (15.0 / 16.0)) / 2.0, 0.0f);
 
     auto matX = modifier->qubitVecTransform->rotateAround(
         QVector3D(0,0,0), x, QVector3D(1,0,0));
@@ -90,6 +91,30 @@ void rotate_amplitude(SceneModifier *modifier, int x, int y, int z){
     auto matXYZ = initializerZ*(initializer*(matZ*(matY * (matX * translate))));
 
     modifier->qubitVecTransform->setMatrix(matXYZ);
+
+    //cone
+
+    QMatrix4x4 translate_cone;
+    translate_cone.translate(0.0f, (31.0 / 32.0) * 4.0f, 0.0f);
+
+    auto matX_cone = modifier->qubitVecTransform->rotateAround(
+        QVector3D(0,0,0), x, QVector3D(1,0,0));
+
+    auto matY_cone = modifier->qubitVecTransform->rotateAround(
+        QVector3D(0,0,0), y, QVector3D(0,1,0));
+
+    auto matZ_cone = modifier->qubitVecTransform->rotateAround(
+        QVector3D(0,0,0), z, QVector3D(0,0,1));
+
+    auto initializer_cone = modifier->qubitVecTransform->rotateAround(
+        QVector3D(0,0,0), 90, QVector3D(1,0,0));
+
+    auto initializerZ_cone = modifier->qubitVecTransform->rotateAround(
+        QVector3D(0,0,0), 90, QVector3D(0,0,1));
+
+    auto matXYZ_cone = initializerZ_cone*(initializer_cone*(matZ_cone*(matY_cone * (matX_cone * translate_cone))));
+
+    modifier->qubitConeTransform->setMatrix(matXYZ_cone);
 }
 
 void refresh_state_sign(QLabel* label, const QuantumState* qs, double phi, double theta){

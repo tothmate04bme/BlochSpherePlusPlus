@@ -31,10 +31,21 @@ public:
     Qt3DCore::QTransform *qubitVecTransform;
     Qt3DCore::QTransform *qubitConeTransform;
     Qt3DCore::QEntity *m_rootEntity;
+
     Qt3DCore::QEntity *m_sphereEntity;
     Qt3DCore::QEntity *m_xAxisEntity;
     Qt3DCore::QEntity *m_yAxisEntity;
     Qt3DCore::QEntity *m_zAxisEntity;
+
+    Qt3DCore::QEntity *m_xAxisCone;
+    Qt3DCore::QEntity *m_yAxisCone;
+    Qt3DCore::QEntity *m_zAxisCone;
+
+    Qt3DCore::QTransform *xAxisConeTransform;
+    Qt3DCore::QTransform *yAxisConeTransform;
+    Qt3DCore::QTransform *zAxisConeTransform;
+
+
     Qt3DCore::QEntity *m_qubitVecEntity;
     Qt3DCore::QEntity *m_qubitConeEntity;
 };

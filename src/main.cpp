@@ -89,7 +89,7 @@ int main(int argc, char **argv)
     cameraEntity->setViewCenter(QVector3D(0, 0, 0));
 
     // For camera controls
-    Qt3DExtras::QOrbitCameraController *camController = new Qt3DExtras::QOrbitCameraController(rootEntity);
+    auto *camController = new Qt3DExtras::QOrbitCameraController(rootEntity);
 
     camController->setCamera(cameraEntity);
     camController->setUpVector(upVec);
