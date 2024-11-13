@@ -346,7 +346,7 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
     layout->addWidget(TGate_adj, 5, 1);
 
     // Seventh row: Label "own gate"
-    layout->addWidget(new QLabel("Own Gate"), 6, 0, 1, 2);
+    layout->addWidget(new QLabel("Custom Gate"), 6, 0, 1, 2);
 
     // Eighth row: Two text fields
     layout->addWidget(m11, 7, 0);
