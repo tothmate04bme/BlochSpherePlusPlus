@@ -4,6 +4,8 @@
 #include "scenemodifier.h"
 #include <Qt3DRender/QGeometryRenderer>
 #include <QtCore/QDebug>
+#include <Qt3DExtras/QPhongAlphaMaterial>
+#include <Qt3DRender/QPointLight>
 
 SceneModifier::SceneModifier(Qt3DCore::QEntity *rootEntity)
     : m_rootEntity(rootEntity)
@@ -51,7 +53,7 @@ SceneModifier::SceneModifier(Qt3DCore::QEntity *rootEntity)
     //Material
     Qt3DExtras::QPhongAlphaMaterial *sphereMaterial = new Qt3DExtras::QPhongAlphaMaterial();
     sphereMaterial->setAmbient(QColor(255, 255, 255));
-    sphereMaterial->setAlpha(1.0f);
+    sphereMaterial->setAlpha(0.8f);
 
     Qt3DExtras::QPhongMaterial *xAxisMaterial = new Qt3DExtras::QPhongMaterial();
     xAxisMaterial->setAmbient(QColor(255, 0, 0, 255));
@@ -103,6 +105,14 @@ SceneModifier::SceneModifier(Qt3DCore::QEntity *rootEntity)
     m_qubitVecEntity->addComponent(qubitVecMesh);
     m_qubitVecEntity->addComponent(qubitVecMaterial);
     m_qubitVecEntity->addComponent(qubitVecTransform);
+
+    // Ambient light
+    auto *ambientLight = new Qt3DRender::QPointLight(rootEntity);
+    ambientLight->setColor("white");
+    ambientLight->setIntensity(1.0f);
+    ambientLight->setEnabled(true);
+
+    rootEntity->addComponent(ambientLight);
 
 }
 
