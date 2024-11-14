@@ -235,6 +235,7 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
             }
 
             delete custom_gate;
+            delete check;
         }
         catch(std::invalid_argument arg){
             QMessageBox::critical(nullptr, "Error", "Plese fill all the neccessary boxes with valid values to define a custom gate");
@@ -367,14 +368,14 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
 
     layout->addWidget(new QLabel("Rotation gates"), 12, 0, 1, 2);
 
-    layout->addWidget(Xrot_button, 13, 1);
     layout->addWidget(Xrot, 13, 0);
+    layout->addWidget(Xrot_button, 13, 1);
 
-    layout->addWidget(Yrot_button, 14, 1);
     layout->addWidget(Yrot, 14, 0);
+    layout->addWidget(Yrot_button, 14, 1);
 
-    layout->addWidget(Zrot_button, 15, 1);
     layout->addWidget(Zrot, 15, 0);
+    layout->addWidget(Zrot_button, 15, 1);
 
     layout->addWidget(resetbutton, 16, 0, 1, 2);
 
