@@ -240,7 +240,7 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
         catch(std::invalid_argument arg){
             QMessageBox::critical(nullptr, "Error", "Please fill all the neccessary boxes with valid values to define a custom gate");
         }
-        catch(std::out_of_range){
+        catch(std::out_of_range rangecheck){
             QMessageBox::critical(nullptr, "Error", "Invalid rotation. Try rotating with a number between -360 and 360");
         }
     });
@@ -264,7 +264,7 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
         catch(std::invalid_argument arg){
             QMessageBox::critical(nullptr, "Error", "Please fill the field with a valid rotate value");
         }
-        catch(std::out_of_range){
+        catch(std::out_of_range rangecheck){
             QMessageBox::critical(nullptr, "Error", "Invalid rotation. Try rotating with a number between -360 and 360");
         }
     });
@@ -288,7 +288,7 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
         catch(std::invalid_argument arg){
             QMessageBox::critical(nullptr, "Error", "Please fill the field with a valid rotate value");
         }
-        catch(std::out_of_range){
+        catch(std::out_of_range rangecheck){
             QMessageBox::critical(nullptr, "Error", "Invalid rotation. Try rotating with a number between -360 and 360");
         }
     });
@@ -314,7 +314,7 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
         catch(std::invalid_argument arg){
             QMessageBox::critical(nullptr, "Error", "Please fill the field with a valid rotate value");
         }
-        catch(std::out_of_range){
+        catch(std::out_of_range rangecheck){
             QMessageBox::critical(nullptr, "Error", "Invalid rotation. Try rotating with a number between -360 and 360");
         }
     });
