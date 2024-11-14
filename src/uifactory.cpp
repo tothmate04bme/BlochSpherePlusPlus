@@ -238,7 +238,7 @@ QGridLayout* generate_UI(SceneModifier *modifier, QuantumState *quantumbit){
             delete check;
         }
         catch(std::invalid_argument arg){
-            QMessageBox::critical(nullptr, "Error", "Plese fill all the neccessary boxes with valid values to define a custom gate");
+            QMessageBox::critical(nullptr, "Error", "Please fill all the neccessary boxes with valid values to define a custom gate");
         }
     });
 
